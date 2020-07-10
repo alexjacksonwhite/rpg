@@ -14,10 +14,7 @@
 *.userprefs
 
 # Build results
-[Dd]ebug/rpg.ilk
-[Dd]ebug/rpg.pdb
-[Dd]ebug/rpg.tlog
-[Dd]ebug/vc142.idb
+[Dd]ebug
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
