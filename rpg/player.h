@@ -46,7 +46,7 @@ private:
 	std::string	resource;
 	int		critChance;
 	int		critDamage;
-	int		primary;
+	int		*primary;
 	int		currentResourcePoints;
 	int		maxResourcePoints;
 	int		initResourcePoints;

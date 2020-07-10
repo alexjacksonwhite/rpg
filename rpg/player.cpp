@@ -17,7 +17,7 @@ Player::Player() {
 	agility = 0;
 	strength = 0;
 	intelligence = 0;
-	primary = 0;
+	primary;
 	experience = 0;
 	nextLevelExp = 1000;
 	level = 1;
@@ -57,7 +57,7 @@ void Player::getStats() {
 	cout << left << setw(20) << "Class: " << c << endl;
 	cout << left << setw(20) << "Resource: " << resource << endl;
 	cout << left << setw(20) << "Current Resource: " << currentResourcePoints << endl;
-	cout << left << setw(20) << "Primary: " << primary << endl;
+	cout << left << setw(20) << "Primary: " << *primary << endl;
 	cout << left << setw(20) << "HealthPoints: " << healthPoints << endl;
 	//cout << left << setw(20) << "Stamina: " << stamina << endl;
 	cout << left << setw(20) << "Agility: " << agility << endl;
@@ -112,7 +112,7 @@ void Player::createCharacter() {
 			agility = 5;
 			strength = 3;
 			intelligence = 2;
-			primary = agility;
+			primary = &agility;
 			critChance = 10;
 			critDamage = 150;
 			currentResourcePoints = 100;
@@ -133,7 +133,7 @@ void Player::createCharacter() {
 			agility = 2;
 			strength = 2;
 			intelligence = 6;
-			primary = intelligence;
+			primary = &intelligence;
 			critChance = 5;
 			critDamage = 200;
 			currentResourcePoints = 150;
@@ -154,7 +154,7 @@ void Player::createCharacter() {
 			agility = 4;
 			strength = 5;
 			intelligence = 1;
-			primary = strength;
+			primary = &strength;
 			critChance = 5;
 			critDamage = 150;
 			currentResourcePoints = 0;
@@ -232,8 +232,8 @@ bool Player::attackMonster(Monster& monster) {
 			spellCost = mSpells.at(0).cost;
 			if (notEnoughResources(spellCost)) {
 				cout << endl << "You don't have enough resources to use that ability . . ." << endl;
-				cout << "You melee swing the monster instead for " << primary+10 << endl;
-				monster.takeDamage(primary+10);
+				cout << "You melee swing the monster instead for " << *primary+10 << endl;
+				monster.takeDamage(*primary+10);
 				return false;
 			}
 
@@ -243,7 +243,7 @@ bool Player::attackMonster(Monster& monster) {
 			cout << "Your " << spell << " hits the  " << monster.getName() << "  for . . . Rolling dice . . . " << endl;
 			this_thread::sleep_for(chrono::milliseconds(wait2));
 
-			modifier = round(mSpells.at(0).modifier * primary);
+			modifier = round(mSpells.at(0).modifier * *primary);
 			damage = rand() % mSpells.at(0).highDamage + mSpells.at(0).lowDamage;
 			critRoll = rand() % 100 + 1;//roll between 1-100
 
@@ -315,8 +315,8 @@ void Player::levelUp() {
 		cout << "Your health has been restored to full" << endl;
 		cout << "Your stats have also been increased" << endl << endl;
 
+		nextLevelExp = nextLevelExp + (nextLevelExp * 0.40);
 		++level;
-		nextLevelExp = level * level * 1000;
 		experience = 0;
 
 		int modA = 0; int modS = 0; int modI = 0; int modHP = 0;
@@ -364,17 +364,17 @@ bool Player::gameOver() {
 	cout << "=========================" << endl;
 	cout << "========GAME OVER========" << endl;
 	cout << "=========================" << endl;
-	cout << "Press 'q' to quit : " << endl;
-	cout << "Press 'c' to start over : " << endl;
-	char input;
+	cout << "Press 0 to quit : " << endl;
+	cout << "Press 1 to start over : " << endl;
+	int input = -1;
 	cin >> input;
 	cout << endl;
 
 	cout << "input: " << input << endl;
 	switch(input) {
-	case 'q':
+	case 0:
 		return true;
-	case 'c':
+	case 1:
 		return false;
 	default:
 		return true;
