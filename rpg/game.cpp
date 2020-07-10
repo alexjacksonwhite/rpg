@@ -51,54 +51,75 @@ void Game::printGameStats() {
 }
 
 void Game::movePlayer() {
-	printPlayerPos();
-	int input = 0;
-	cout << "1. North" << endl;
-	cout << "2. East" << endl;
-	cout << "3. South" << endl;
-	cout << "4. West" << endl;
-	cin >> input;
+	int input;
+	bool moving = true;
 
-	switch (input) {
-	case 1: //north
-		if (getY() == 20) {
-			cout << "You can't move off the map!" << endl;
+	while (moving) {
+		printPlayerPos();
+		cout << "1. North" << endl;
+		cout << "2. East" << endl;
+		cout << "3. South" << endl;
+		cout << "4. West" << endl;
+		input = -1;
+		cin >> input;
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			system("cls");
+			cout << "Invalid input, try again" << endl;
+			system("pause");
+			system("cls");
+			continue;
 		}
-		else {
-			++mPlayerY;
-			--remainingMoves;
+
+		switch (input) {
+		case 1: //north
+			if (getY() == 20) {
+				cout << "You can't move off the map!" << endl;
+			}
+			else {
+				++mPlayerY;
+				--remainingMoves;
+				moving = false;
+			}
+			break;
+		case 2: //east
+			if (getX() == 20) {
+				cout << "You can't move off the map!" << endl;
+			}
+			else {
+				++mPlayerX;
+				--remainingMoves;
+				moving = false;
+			}
+			break;
+		case 3: //south
+			if (getY() == -20) {
+				cout << "You can't move off the map!" << endl;
+			}
+			else {
+				--mPlayerY;
+				--remainingMoves;
+				moving = false;
+			}
+			break;
+		case 4: //west
+			if (getX() == -20) {
+				cout << "You can't move off the map!" << endl;
+			}
+			else {
+				--mPlayerX;
+				--remainingMoves;
+				moving = false;
+			}
+			break;
+		default:
+			system("cls");
+			cout << "Invalid option" << endl;
+			system("pause");
+			system("cls");
+			break;
 		}
-		break;
-	case 2: //east
-		if (getX() == 20) {
-			cout << "You can't move off the map!" << endl;
-		}
-		else {
-			++mPlayerX;
-			--remainingMoves;
-		}
-		break;
-	case 3: //south
-		if (getY() == -20) {
-			cout << "You can't move off the map!" << endl;
-		}
-		else {
-			--mPlayerY;
-			--remainingMoves;
-		}
-		break;
-	case 4: //west
-		if (getX() == -20) {
-			cout << "You can't move off the map!" << endl;
-		}
-		else {
-			--mPlayerX;
-			--remainingMoves;
-		}
-		break;
-	default:
-		cout << "Invalid option" << endl;
-		break;
 	}
 	system("cls");
 }

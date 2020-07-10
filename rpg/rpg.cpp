@@ -17,16 +17,14 @@ int main(){
     game.intro();
     player.createCharacter();
     player.getStats();
-    //
-
     bool gameOver = false;
-    bool continuePlaying = false;
 
     while (!gameOver) {
 
         if (game.noMovesLeft()) gameOver = true;
 
         int input = -1;
+        Monster* monster = 0;
         game.printGameStats();
 
         cout << "Waiting on player input" << endl;
@@ -36,10 +34,14 @@ int main(){
         cout << "3. Stats" << endl;
         cout << "4. Choose another Class (Only for Testing)" << endl;
         cin >> input;
-
-        Monster* monster = 0;
-
         system("cls");
+
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input, try again" << endl;
+            continue;
+        }
 
         switch (input) {
         case 0://quit

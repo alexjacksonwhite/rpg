@@ -21,7 +21,10 @@
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-x64/
+x64/Debug/rpg.ilk
+x64/Debug/rpg.pdb
+x64/Debug/rpg.tlog
+x64/Debug/vc142.idb
 x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
@@ -341,3 +344,5 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/rpg/x64/Debug/rpg.tlog
+/rpg/x64/Debug/vc142.idb

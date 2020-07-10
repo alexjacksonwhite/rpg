@@ -81,81 +81,102 @@ void Player::createCharacter() {
 	//cout << "Enter your name: ";
 	//cin >> name;
 	//name = name;
+	bool classNotChosen = true;
 	this->name = "Adventurer";
-
-	cout << "Please select a Class" << endl;
-	cout << "1 = Rogue" << endl; 
-	cout << "2 = Mage" << endl; 
-	cout << "3 = Warrior" << endl;
-	int cNum = 0;
-	cin >> cNum;
+	int cNum;
 	mSpells.clear();
 
-	switch (cNum) {
-	case 1: //Rogue
-		this->c = "Rogue";
-		resource = "ENERGY";
-		agility = 5;
-		strength = 3;
-		intelligence = 2;
-		primary = agility;
-		critChance = 10;
-		critDamage = 150;
-		currentResourcePoints = 100;
-		maxResourcePoints = 100;
-		initResourcePoints = 100;
-		experience = 0;
-		nextLevelExp = 1000;
-		level = 1;
-		healthPoints = 100;
-		maxHealthPoints = 100;
-		addSpell("Backstab", "ENERGY", 60, 13, 17, 1.3);
-		addSpell("Stealth", "ENERGY", 0, 0, 0, 0);
-		break;
-	case 2: //Mage
-		this->c = "Mage";
-		resource = "MANA";
-		agility = 2;
-		strength = 2;
-		intelligence = 6;
-		primary = intelligence;
-		critChance = 5;
-		critDamage = 200;
-		currentResourcePoints = 150;
-		maxResourcePoints = 150;
-		initResourcePoints = maxResourcePoints;
-		experience = 0;
-		nextLevelExp = 1000;
-		level = 1;
-		healthPoints = 100;
-		maxHealthPoints = 100;
-		addSpell("Fireball", "MANA", 20, 9, 11, 1.2);
-		addSpell("Ice Armor", "MANA", 10, 0, 0, 0);
-		break;
-	case 3: //Warrior
-		this->c = "Warrior";
-		resource = "RAGE";
-		agility = 4;
-		strength = 5;
-		intelligence = 1;
-		primary = strength;
-		critChance = 5;
-		critDamage = 150;
-		currentResourcePoints = 0;
-		maxResourcePoints = 100;
-		initResourcePoints = 0;
-		experience = 0;
-		nextLevelExp = 1000;
-		level = 1;
-		healthPoints = 100;
-		maxHealthPoints = 100;
-		addSpell("Rend", "RAGE", -15, 6, 9, 1.4);
-		addSpell("Battle Shout", "RAGE", 15, 0, 0, 0);
-		//addSpell("Execute", "RAGE", 30, ((1.5 * strength) + currentResourcePoints + 15));
-		break;
-	default:
-		cout << "Invalid class, assigning to Rogue" << endl;
-		c = "Rogue";
+
+	while (classNotChosen) {
+
+		cout << "Please select a Class" << endl;
+		cout << "1 = Rogue" << endl;
+		cout << "2 = Mage" << endl;
+		cout << "3 = Warrior" << endl;
+		cNum = -1;
+		cin >> cNum;
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			system("cls");
+			cout << "Invalid input, try again" << endl;
+			system("pause");
+			system("cls");
+			continue;
+		}
+
+		switch (cNum) {
+		case 1: //Rogue
+			this->c = "Rogue";
+			resource = "ENERGY";
+			agility = 5;
+			strength = 3;
+			intelligence = 2;
+			primary = agility;
+			critChance = 10;
+			critDamage = 150;
+			currentResourcePoints = 100;
+			maxResourcePoints = 100;
+			initResourcePoints = 100;
+			experience = 0;
+			nextLevelExp = 1000;
+			level = 1;
+			healthPoints = 100;
+			maxHealthPoints = 100;
+			addSpell("Backstab", "ENERGY", 60, 13, 17, 1.3);
+			addSpell("Stealth", "ENERGY", 0, 0, 0, 0);
+			classNotChosen = false;
+			break;
+		case 2: //Mage
+			this->c = "Mage";
+			resource = "MANA";
+			agility = 2;
+			strength = 2;
+			intelligence = 6;
+			primary = intelligence;
+			critChance = 5;
+			critDamage = 200;
+			currentResourcePoints = 150;
+			maxResourcePoints = 150;
+			initResourcePoints = maxResourcePoints;
+			experience = 0;
+			nextLevelExp = 1000;
+			level = 1;
+			healthPoints = 100;
+			maxHealthPoints = 100;
+			addSpell("Fireball", "MANA", 20, 9, 11, 1.2);
+			addSpell("Ice Armor", "MANA", 10, 0, 0, 0);
+			classNotChosen = false;
+			break;
+		case 3: //Warrior
+			this->c = "Warrior";
+			resource = "RAGE";
+			agility = 4;
+			strength = 5;
+			intelligence = 1;
+			primary = strength;
+			critChance = 5;
+			critDamage = 150;
+			currentResourcePoints = 0;
+			maxResourcePoints = 100;
+			initResourcePoints = 0;
+			experience = 0;
+			nextLevelExp = 1000;
+			level = 1;
+			healthPoints = 100;
+			maxHealthPoints = 100;
+			addSpell("Rend", "RAGE", -15, 6, 9, 1.4);
+			addSpell("Battle Shout", "RAGE", 15, 0, 0, 0);
+			classNotChosen = false;
+			//addSpell("Execute", "RAGE", 30, ((1.5 * strength) + currentResourcePoints + 15));
+			break;
+		default:
+			system("cls");
+			cout << "Invalid option" << endl;
+			system("pause");
+			system("cls");
+			break;
+		}
 	}
 	system("cls");
 	getStats();
@@ -177,7 +198,9 @@ void Player::addSpell(string spellName, string resource, int cost, int lowDamage
 bool Player::attackMonster(Monster& monster) {
 
 	bool fastAnimations = false;
+	bool combat = true;
 	int damage, modifier, critRoll, totalDamage, runAwayRoll, spellCost, wait1, wait2 = 0;
+	int input;
 	string spell;
 
 	if (!fastAnimations) {
@@ -185,19 +208,26 @@ bool Player::attackMonster(Monster& monster) {
 		wait2 = 1000;
 	}
 
-	while (true) {
+	while (combat) {
 		system("pause");
 		system("cls");
-		int input = -1;
 		cout << "A(n) " << monster.getName() << " is attacking you! What do you do?" << endl;
 		cout << "1. Attack" << endl;
 		cout << "2. Run" << endl;
 		cout << "3. View Resources" << endl;
+		input = -1;
 		cin >> input;
 		system("cls");
 
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cout << "Invalid input, try again" << endl;
+			continue;
+		}
+
 		switch (input) {
-		case 1:
+		case 1://attack
 			this_thread::sleep_for(chrono::milliseconds(wait1));
 			spellCost = mSpells.at(0).cost;
 			if (notEnoughResources(spellCost)) {
@@ -236,7 +266,7 @@ bool Player::attackMonster(Monster& monster) {
 			monster.takeDamage(totalDamage);
 			useResources(spellCost);
 			return false;
-		case 2:
+		case 2://runaway
 			runAwayRoll = rand() % 5 + 1;
 			if (runAwayRoll >= 3) {
 				cout << "You ran away from the " << monster.getName() << endl;
@@ -248,12 +278,12 @@ bool Player::attackMonster(Monster& monster) {
 			}
 			else
 				return true;
-		case 3:
+		case 3://stats
 			cout << "Your current HP:  " << getHealthPoints() << endl;
 			cout << "Current resources:  " << getCurrentResourcePoints() << endl;
 			cout << endl << "Enemy " << monster.getName() << " current HP: " << monster.getHealth() << endl;
 			continue;
-		default:
+		default://else
 			cout << "Invalid option" << endl;
 			continue;
 		}
