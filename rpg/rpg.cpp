@@ -13,6 +13,8 @@ int main(){
 
     srand(time(NULL));
     Game game;
+
+    //test
     Player player;
     game.intro();
     player.createCharacter();
