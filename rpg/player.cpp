@@ -57,7 +57,7 @@ void Player::getStats() {
 	cout << left << setw(20) << "Class: " << c << endl;
 	cout << left << setw(20) << "Resource: " << resource << endl;
 	cout << left << setw(20) << "Current Resource: " << currentResourcePoints << endl;
-	cout << left << setw(20) << "Primary: " << *primary << endl;
+	//cout << left << setw(20) << "Primary: " << *primary << endl;
 	cout << left << setw(20) << "HealthPoints: " << healthPoints << endl;
 	//cout << left << setw(20) << "Stamina: " << stamina << endl;
 	cout << left << setw(20) << "Agility: " << agility << endl;
@@ -243,7 +243,7 @@ bool Player::attackMonster(Monster& monster) {
 			cout << "Your " << spell << " hits the  " << monster.getName() << "  for . . . Rolling dice . . . " << endl;
 			this_thread::sleep_for(chrono::milliseconds(wait2));
 
-			modifier = round(mSpells.at(0).modifier * *primary);
+			modifier = (int)round(mSpells.at(0).modifier * (double)*primary);
 			damage = rand() % mSpells.at(0).highDamage + mSpells.at(0).lowDamage;
 			critRoll = rand() % 100 + 1;//roll between 1-100
 
@@ -315,7 +315,7 @@ void Player::levelUp() {
 		cout << "Your health has been restored to full" << endl;
 		cout << "Your stats have also been increased" << endl << endl;
 
-		nextLevelExp = nextLevelExp + (nextLevelExp * 0.40);
+		nextLevelExp = nextLevelExp + (int)((double)nextLevelExp * 0.40);
 		++level;
 		experience = 0;
 
