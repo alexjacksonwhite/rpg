@@ -30,7 +30,7 @@ int main(){
         game.printGameStats();
         player.displayEXPBar();
 
-        cout << "Waiting on player input" << endl;
+        cout << "What do you want to do?" << endl;
         cout << "0. Exit" << endl;
         cout << "1. Move" << endl;
         cout << "2. Rest" << endl;

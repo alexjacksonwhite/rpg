@@ -180,8 +180,8 @@ void Game::intro() {
 	cout << "How to Play!" << endl;
 	cout << "1: Pick a Class:" << endl;
 	cout << "\t- Rogue" << endl;
-	cout << "\t- Mage" << endl;
-	cout << "\t- Warrior" << endl;
+	cout << "\t- Mage (WIP)" << endl;
+	cout << "\t- Warrior (WIP)" << endl;
 
 	cout << "2: Move around the map:" << endl;
 	cout << "\t- Dangerous monsters await you the farther you move" << endl;
@@ -189,6 +189,14 @@ void Game::intro() {
 		
 	cout << "3: You have 50 moves to defeat the final boss:" << endl; 
 	cout << "\t- Make sure you level up before venturing out too far!" << endl << endl;
+
+	cout << "WIP / NYI" << endl;
+	cout << "\t- Gold drop on monster kills" << endl;
+	cout << "\t- Randomly find vendors to use your Gold on powerful items" << endl;
+	cout << "\t- No back-tracking allowed to avoid 'cheesing' EXP gains" << endl;
+	cout << "\t- More robust spell choices in combat" << endl;
+
+	cout << endl << endl;
 	system("pause");
 	system("cls");
 }
