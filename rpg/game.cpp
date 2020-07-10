@@ -43,8 +43,6 @@ bool Game::noMovesLeft() {
 }
 
 void Game::printGameStats() {
-	system("pause");
-	system("cls");
 	printPlayerPos();
 	printRemainingMoves();
 	cout << endl;

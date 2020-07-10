@@ -25,7 +25,10 @@ int main(){
 
         int input = -1;
         Monster* monster = 0;
+        system("pause");
+        system("cls");
         game.printGameStats();
+        player.displayEXPBar();
 
         cout << "Waiting on player input" << endl;
         cout << "0. Exit" << endl;

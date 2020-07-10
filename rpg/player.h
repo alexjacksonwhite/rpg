@@ -35,7 +35,7 @@ public:
 	void	victory(int xp);
 	void	levelUp();
 	bool	gameOver();
-	void	displayEXP();
+	void	displayEXPBar();
 	void	useResources(int cost);
 	void	roundOver();
 	void	initializeResourcePoints();

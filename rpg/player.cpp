@@ -17,7 +17,7 @@ Player::Player() {
 	agility = 0;
 	strength = 0;
 	intelligence = 0;
-	primary;
+	primary = 0;
 	experience = 0;
 	nextLevelExp = 1000;
 	level = 1;
@@ -231,16 +231,22 @@ bool Player::attackMonster(Monster& monster) {
 			this_thread::sleep_for(chrono::milliseconds(wait1));
 			spellCost = mSpells.at(0).cost;
 			if (notEnoughResources(spellCost)) {
-				cout << endl << "You don't have enough resources to use that ability . . ." << endl;
-				cout << "You melee swing the monster instead for " << *primary+10 << endl;
-				monster.takeDamage(*primary+10);
+				totalDamage = *primary + 10;
+				bool overkill = totalDamage > monster.getHealth();
+				cout << endl << "You don't have enough resources to use that ability" << endl;
+				cout << "You melee swing the " << monster.getName() << " instead for . . ." << endl;
+				cout << totalDamage << " damage!";
+				if (overkill)
+					cout << " (" << totalDamage - monster.getHealth() << " OVERKILL)";
+				cout << endl;
+				monster.takeDamage(totalDamage);
 				return false;
 			}
 
 			spell = mSpells.at(0).spellName;
 			cout << endl << "Rolling dice.." << endl << endl;
 			this_thread::sleep_for(chrono::milliseconds(wait2));
-			cout << "Your " << spell << " hits the  " << monster.getName() << "  for . . . Rolling dice . . . " << endl;
+			cout << "Your " << spell << " hits the " << monster.getName() << " for . . . Rolling dice . . . " << endl;
 			this_thread::sleep_for(chrono::milliseconds(wait2));
 
 			modifier = (int)round(mSpells.at(0).modifier * (double)*primary);
@@ -252,7 +258,7 @@ bool Player::attackMonster(Monster& monster) {
 				bool overkill = totalDamage > monster.getHealth();
 				cout << totalDamage << " CRITICAL damage!";
 				if (overkill)
-					cout << " (" << totalDamage - monster.getHealth() << " OVERKILL) ";
+					cout << " (" << totalDamage - monster.getHealth() << " OVERKILL)";
 				cout << endl;
 			}
 			else {//non-crit
@@ -260,7 +266,7 @@ bool Player::attackMonster(Monster& monster) {
 				bool overkill = totalDamage > monster.getHealth();
 				cout << totalDamage << " damage!";
 				if (overkill)
-					cout << " (" << totalDamage - monster.getHealth() << " OVERKILL) ";
+					cout << " (" << totalDamage - monster.getHealth() << " OVERKILL)";
 				cout << endl;
 			}
 			monster.takeDamage(totalDamage);
@@ -315,9 +321,9 @@ void Player::levelUp() {
 		cout << "Your health has been restored to full" << endl;
 		cout << "Your stats have also been increased" << endl << endl;
 
+		experience = experience - nextLevelExp;
 		nextLevelExp = nextLevelExp + (int)((double)nextLevelExp * 0.40);
 		++level;
-		experience = 0;
 
 		int modA = 0; int modS = 0; int modI = 0; int modHP = 0;
 
@@ -381,8 +387,22 @@ bool Player::gameOver() {
 	}
 }
 
-void Player::displayEXP() {
+void Player::displayEXPBar() {
+	int step = 0;
+	int displayNext = step;
+	int percent = 0;
 
+	cout << "Level: " << level << endl;
+	percent = (100 * (experience + 1)) / nextLevelExp;
+	if (percent >= displayNext)
+	{
+		cout << "\r" << "[" << std::string(percent / 5, (char)254u) << string(100 / 5 - percent / 5, ' ') << "]";
+		cout << "[ " << experience << " / " << nextLevelExp << " ] EXP" << endl;
+		std::cout.flush();
+		displayNext += step;
+	}
+	
+	cout << endl;
 }
 
 void Player::useResources(int cost) {
