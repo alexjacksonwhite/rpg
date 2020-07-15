@@ -14,6 +14,8 @@
 *.userprefs
 
 # Build results
+rpg/rpg.vcxproj
+rpg/rpg.vcxproj.filters
 [Dd]ebug
 [Dd]ebugPublic/
 [Rr]elease/
