@@ -28,6 +28,7 @@ int main(){
         system("pause");
         system("cls");
         game.printGameStats();
+        player.displayPlayerGold();
         player.displayEXPBar();
 
         cout << "What do you want to do?" << endl;
@@ -35,7 +36,8 @@ int main(){
         cout << "1. Move" << endl;
         cout << "2. Rest" << endl;
         cout << "3. Stats" << endl;
-        cout << "4. Choose another Class (Only for Testing)" << endl;
+        cout << "4. Visit the Shop" << endl;
+        cout << "10. Choose another Class (Only for Testing)" << endl;
         cin >> input;
         system("cls");
 
@@ -60,7 +62,7 @@ int main(){
                         break;
                     }
                     if (monster->isDead()) {
-                        player.victory(monster->getEXP());
+                        player.victory(*monster);
                         player.levelUp();
                         player.initializeResourcePoints();
                         break;
@@ -88,7 +90,11 @@ int main(){
         case 3://stats
             player.getStats();
             break;
-        case 4://class
+        case 4://shop
+            player.visitShop();
+            game.deductMoves(5);
+            break;
+        case 10://class
             player.createCharacter();
             break;
         default:

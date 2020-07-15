@@ -20,6 +20,8 @@ public:
 
 	// logic
 	bool		noMovesLeft();
+	void		deductMoves(int moves);
+	void		rewardMoves(int moves);
 
 	// printers
 	void		printPlayerPos();

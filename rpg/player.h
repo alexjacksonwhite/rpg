@@ -32,13 +32,15 @@ public:
 	void	rest();
 	bool	isDead();
 	bool	notEnoughResources(int cost);
-	void	victory(int xp);
+	void	victory(Monster& monster);
 	void	levelUp();
 	bool	gameOver();
 	void	displayEXPBar();
 	void	useResources(int cost);
 	void	roundOver();
 	void	initializeResourcePoints();
+	void	displayPlayerGold();
+	void	visitShop();
 
 private:
 	std::string	name;
@@ -59,6 +61,7 @@ private:
 	int		experience;
 	int		level;
 	int		nextLevelExp;
+	int		playerGold;
 
 	struct spells {
 		std::string spellName;

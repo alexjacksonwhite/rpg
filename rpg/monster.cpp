@@ -14,6 +14,11 @@ Monster::Monster(const std::string& name, int hp, int exp, int level, int armor,
 	mLevel = level;
 	mLowDamage = lowDamage;
 	mHighDamage = highDamage;
+	mGold = generateGold(level);
+}
+
+int	Monster::generateGold(int level) {
+	return rand() % (5 + level) + 4;//roll between 4-5 and add for each level
 }
 
 bool Monster::isDead() {
@@ -30,6 +35,10 @@ int Monster::getArmor() {
 
 int Monster::getHealth() {
 	return mHp;
+}
+
+int Monster::getGold() {
+	return mGold;
 }
 
 std::string Monster::getName() {

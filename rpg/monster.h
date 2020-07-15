@@ -10,11 +10,15 @@ public:
 
 	bool	isDead();
 
+	//getters
 	int		getEXP();
 	std::string	getName();
 	int		getArmor();
 	int		getHealth();
+	int		getGold();
 
+	//biggers
+	int		generateGold(int level);
 	void	attackPlayer(Player& player);
 	void	takeDamage(int damage);
 	void	displayHealth();
@@ -27,4 +31,5 @@ private:
 	int		mLevel;
 	int		mLowDamage;
 	int		mHighDamage;
+	int		mGold;
 };

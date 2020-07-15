@@ -42,10 +42,17 @@ bool Game::noMovesLeft() {
 	return remainingMoves <= 0;
 }
 
+void Game::deductMoves(int moves) {
+	remainingMoves -= moves;
+}
+
+void Game::rewardMoves(int moves) {
+	remainingMoves += moves;
+}
+
 void Game::printGameStats() {
 	printPlayerPos();
 	printRemainingMoves();
-	cout << endl;
 }
 
 void Game::movePlayer() {

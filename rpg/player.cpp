@@ -26,6 +26,7 @@ Player::Player() {
 	initResourcePoints = 0;
 	critChance = 0;
 	critDamage = 0;
+	playerGold = 5;
 	mSpells;
 }
 
@@ -309,10 +310,11 @@ bool Player::isDead() {
 	return healthPoints <= 0;
 }
 
-void Player::victory(int xp) {
+void Player::victory(Monster& monster) {
 	cout << "You won the battle!" << endl;
-	cout << "You win " << xp << " experience points!" << endl << endl;
-	experience += xp;
+	cout << "You win " << monster.getEXP() << " experience points!" << endl << endl;
+	experience += monster.getEXP();
+	playerGold += monster.getGold();
 }
 
 void Player::levelUp() {
@@ -387,12 +389,16 @@ bool Player::gameOver() {
 	}
 }
 
+void Player::displayPlayerGold() {
+	cout << "Player Gold: " << playerGold << endl;
+}
+
 void Player::displayEXPBar() {
 	int step = 0;
 	int displayNext = step;
 	int percent = 0;
 
-	cout << "Level: " << level << endl;
+	cout << endl << "Level: " << level << endl;
 	percent = (100 * (experience + 1)) / nextLevelExp;
 	if (percent >= displayNext)
 	{
@@ -425,5 +431,84 @@ void Player::initializeResourcePoints() {
 void Player::roundOver() {
 	if (getClass() == "Rogue") {
 		currentResourcePoints += 20;
+	}
+}
+
+void Player::visitShop() {
+
+	bool shopping = true;
+	int loopCounter = 0;
+	int input;
+
+	while (shopping) {
+		if (loopCounter == 0) {
+			cout << "You have arrived at the shop." << endl;
+			cout << "This has cost you 5 moves." << endl;
+		}
+		input = -1;
+		loopCounter++;
+		system("pause");
+		system("cls");
+		displayPlayerGold();
+		cout << "Each upgrade costs 10 Gold pieces." << endl;
+		cout << endl << "Choose an attribute to permanently increase: " << endl;
+		cout << "1. Agility" << endl;
+		cout << "2. Intelligence" << endl;
+		cout << "3. Strength" << endl;
+		cout << "4. Exit the Shop" << endl;
+		cin >> input;
+		system("cls");
+
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cout << "Invalid input, try again" << endl;
+			continue;
+		}
+
+		switch (input) {
+
+		case 1://agility
+			if (playerGold >= 10) {
+				agility += 1;
+				playerGold -= 10;
+				system("cls");
+				cout << "Your Agility has been increased by 1. You now have " << agility << " Agility." << endl;
+				break;
+			}
+			else {
+				cout << "Not enough Gold pieces." << endl;
+				continue;
+			}
+		case 2://intelligence
+			if (playerGold >= 10) {
+				intelligence += 1;
+				playerGold -= 10;
+				system("cls");
+				cout << "Your Intelligence has been increased by 1. You now have " << intelligence << " Intelligence." << endl;
+				break;
+			}
+			else {
+				cout << "Not enough Gold pieces." << endl;
+				continue;
+			}
+		case 3://strength
+			if (playerGold >= 10) {
+				strength += 1;
+				playerGold -= 10;
+				system("cls");
+				cout << "Your Strength has been increased by 1. You now have " << strength << " Strength." << endl;
+				break;
+			}
+			else {
+				cout << "Not enough Gold pieces." << endl;
+				continue;
+			}
+		case 4://exit
+			return;
+		default://else
+			cout << "Invalid option" << endl;
+			continue;
+		}
 	}
 }
