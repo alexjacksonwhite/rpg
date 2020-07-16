@@ -41,6 +41,10 @@ int Monster::getGold() {
 	return mGold;
 }
 
+int Monster::getLevel() {
+	return mLevel;
+}
+
 std::string Monster::getName() {
 	return mName;
 }

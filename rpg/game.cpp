@@ -132,48 +132,102 @@ void Game::movePlayer() {
 Monster* Game::randomizeMonster() {
 	bool debug = false;
 	Monster* monster = 0;
+	string name;
 	int lowEnd = 0;
 	int highEnd = 60;
 	int maxPos = 0;
+	int levelModifier = 0;
+	int	level = 0;
+	int encounterRoll = 0;
+	int hpMod, expMod, armorMod, damageMod;
+	int experience, armor, hp, lowDamage, highDamage;
 
+	//determine player position
 	if (abs(getX() > abs(getY()))) maxPos = abs(getX());
 	else maxPos = abs(getY());
 
-	lowEnd = lowEnd + (maxPos*2);
-	highEnd = highEnd + (maxPos*2);
+	if (maxPos == 0) levelModifier = 1;//if player is at 0,0 coordinate
+	else levelModifier = maxPos;
 
-	int roll = rand() % highEnd + lowEnd; //roll 1-60
+	//set monster level based on how player position
+	if (levelModifier == 1) level = 1;
+	else level = rand() % levelModifier + (levelModifier - 1);
 
+	//roll an encounter based on player position
+	lowEnd = lowEnd + (maxPos * 2);
+	highEnd = highEnd + (maxPos * 2);
+	encounterRoll = rand() % highEnd + lowEnd; //roll 1-60
+
+	//show rolls
 	if (debug) {
 		cout << "Highend: " << highEnd << endl;
 		cout << "Lowend: " << lowEnd << endl;
-		cout << "Roll: " << roll << endl;
+		cout << "Roll: " << encounterRoll << endl;
 	}
 
-	if (roll <= 20) { // no encounter
+	if (encounterRoll <= 20) { // no encounter
 		cout << "Nothing to fight, you have moved 1 space for free!" << endl << endl;
 		return 0; 
 	}
-	else if (roll >= 21 && roll <= 40) { //goblin
-		monster = new Monster("Goblin", 60, 300, 1, 2, 10, 15);
-		cout << "You encountered a Goblin!" << endl;
-		cout << "Prepare for battle!" << endl << endl;
+	else if (encounterRoll >= 21 && encounterRoll <= 40) { //goblin
+		//mods
+		hpMod = 10 * (level - 1);//every level is 10 more health
+		expMod = 50 * (level - 1);//every level is 50 more exp
+		armorMod = (int)(floor(0.25 * (level - 1 )));//every 4 levels increases armor by 1
+		damageMod = 1 * (level - 1);//every level is 1 more damage
+
+		//values
+		name = "Goblin";
+		hp = 60 + hpMod;
+		experience = 300 + expMod;
+		armor = 2 + armorMod;
+		lowDamage = 10 + damageMod;
+		highDamage = 15 + damageMod;
 	}
-	else if (roll >= 41 && roll <= 70) {//orc
-		monster = new Monster("Orc", 80, 500, 1, 4, 20, 30);
-		cout << "You encountered an Orc!" << endl;
-		cout << "Prepare for battle!" << endl << endl;
+	else if (encounterRoll >= 41 && encounterRoll <= 70) {//orc
+		//mods
+		hpMod = 10 * (level - 1);//every level is 10 more health
+		expMod = 50 * (level - 1);//every level is 50 more exp
+		armorMod = (int)(floor(0.25 * (level - 1)));//every 4 levels increases armor by 1
+		damageMod = 1 * (level - 1);//every level is 1 more damage
+
+		//values
+		name = "Orc";
+		hp = 80 + hpMod;
+		experience = 500 + expMod;
+		armor = 4 + armorMod;
+		lowDamage = 20 + damageMod;
+		highDamage = 30 + damageMod;
 	}
-	else if (roll >= 71 && roll <= 95) {//whelp
-		monster = new Monster("Whelp", 90, 600, 1, 3, 25, 35);
-		cout << "You encountered a Dragon Whelp!" << endl;
-		cout << "Prepare for battle!" << endl << endl;
+	else if (encounterRoll >= 71 && encounterRoll <= 95) {//whelp
+		//mods
+		hpMod = 10 * (level - 1);//every level is 10 more health
+		expMod = 50 * (level - 1);//every level is 50 more exp
+		armorMod = (int)(floor(0.25 * (level - 1)));//every 4 levels increases armor by 1
+		damageMod = 1 * (level - 1);//every level is 1 more damage
+
+		//values
+		name = "Whelp";
+		hp = 90 + hpMod;
+		experience = 600 + expMod;
+		armor = 3 + armorMod;
+		lowDamage = 25 + damageMod;
+		highDamage = 35 + damageMod;
 	}
-	else if (roll >= 96) {//boss
-		monster = new Monster("Edgy Warlord Boss Name", 120, 900, 3, 6, 40, 55);
-		cout << "You encountered an Edgy Warlord Boss Name!" << endl;
-		cout << "Better run away!" << endl << endl;
+	else if (encounterRoll >= 96) {//boss
+		//values
+		name = "Edgy Warlord Boss";
+		hp = 250;
+		experience = 900;
+		level = 20;
+		armor = 6;
+		lowDamage = 40;
+		highDamage = 55;
 	}
+
+	monster = new Monster(name, hp, experience, level, armor, lowDamage, highDamage);
+	cout << "You encountered a(n) " << monster->getName() << "!" << endl;
+	cout << "Prepare for battle!" << endl << endl;
 	return monster;
 }
 
@@ -198,10 +252,7 @@ void Game::intro() {
 	cout << "\t- Make sure you level up before venturing out too far!" << endl << endl;
 
 	cout << "WIP / NYI" << endl;
-	cout << "\t- Gold drop on monster kills" << endl;
-	cout << "\t- Randomly find vendors to use your Gold on powerful items" << endl;
-	cout << "\t- No back-tracking allowed to avoid 'cheesing' EXP gains" << endl;
-	cout << "\t- More robust spell choices in combat" << endl;
+	cout << "\t- More spell choices in combat" << endl;
 
 	cout << endl << endl;
 	system("pause");

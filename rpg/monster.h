@@ -16,6 +16,7 @@ public:
 	int		getArmor();
 	int		getHealth();
 	int		getGold();
+	int		getLevel();
 
 	//biggers
 	int		generateGold(int level);

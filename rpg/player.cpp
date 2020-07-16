@@ -288,7 +288,9 @@ bool Player::attackMonster(Monster& monster) {
 		case 3://stats
 			cout << "Your current HP:  " << getHealthPoints() << endl;
 			cout << "Current resources:  " << getCurrentResourcePoints() << endl;
-			cout << endl << "Enemy " << monster.getName() << " current HP: " << monster.getHealth() << endl;
+			cout << endl << "Enemy " << monster.getName() << ":" << endl;
+			cout << "Current HP : " << monster.getHealth() << endl;
+			cout << "Level: " << monster.getLevel() << endl;
 			continue;
 		default://else
 			cout << "Invalid option" << endl;
@@ -312,7 +314,8 @@ bool Player::isDead() {
 
 void Player::victory(Monster& monster) {
 	cout << "You won the battle!" << endl;
-	cout << "You win " << monster.getEXP() << " experience points!" << endl << endl;
+	cout << "You gained " << monster.getEXP() << " experience points." << endl;
+	cout << "You looted " << monster.getGold() << " Gold pieces." << endl << endl;
 	experience += monster.getEXP();
 	playerGold += monster.getGold();
 }
