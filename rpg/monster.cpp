@@ -54,12 +54,20 @@ void Monster::attackPlayer(Player& player) {
 	bool fastAnimations = false;
 	int wait1 = 0;
 	int damage = rand() % mLowDamage + mHighDamage;
+
 	if (!fastAnimations) wait1 = 1000;
 
-	cout << "The " << mName << " attacks you for . . . Rolling dice . . ." << endl;
-	this_thread::sleep_for(std::chrono::milliseconds(wait1));
-	cout << damage << " damage!" << endl;
-	player.takeDamage(mLowDamage);
+	if (player.getStatus() == "STEALTHED") {
+		cout << "The " << mName << " was unable to find you in stealth." << endl;
+		damage = 0;
+	}
+	else {
+		cout << "The " << mName << " attacks you for . . . Rolling dice . . ." << endl;
+		this_thread::sleep_for(std::chrono::milliseconds(wait1));
+		cout << damage << " damage!" << endl;
+	}
+	player.takeDamage(damage);
+	if (player.getClass() == "Warrior") player.gainOrUseResources((int)round(damage / 2));
 }
 
 void Monster::takeDamage(int damage) {

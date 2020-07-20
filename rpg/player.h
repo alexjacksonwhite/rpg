@@ -20,9 +20,12 @@ public:
 	//getters
 	std::string	getName();
 	std::string	getClass();
+	std::string getStatus();
+	bool	getInCombat();
 	int		getHealthPoints();
 	void	getStats();
 	int		getCurrentResourcePoints();
+	int		getCritChance();
 
 	//biggers
 	void	createCharacter();
@@ -37,15 +40,22 @@ public:
 	bool	gameOver();
 	void	displayEXPBar();
 	void	useResources(int cost);
+	void	gainResources(int cost);
+	void	gainOrUseResources(int cost);
 	void	roundOver();
-	void	initializeResourcePoints();
+	void	initializePlayer();
 	void	displayPlayerGold();
 	void	visitShop();
+	bool	validInput();
+	void	enterCombat();
+	void	leaveCombat();
 
 private:
 	std::string	name;
 	std::string	c;
 	std::string	resource;
+	std::string status;
+	bool	inCombat;
 	int		critChance;
 	int		critDamage;
 	int		*primary;
@@ -62,6 +72,8 @@ private:
 	int		level;
 	int		nextLevelExp;
 	int		playerGold;
+	int		turn;
+	int		castTime;
 
 	struct spells {
 		std::string spellName;

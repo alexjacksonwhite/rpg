@@ -16,7 +16,6 @@ int main(){
     Player player;
     game.intro();
     player.createCharacter();
-    player.getStats();
     bool gameOver = false;
 
     while (!gameOver) {
@@ -37,7 +36,7 @@ int main(){
         cout << "2. Rest" << endl;
         cout << "3. Stats" << endl;
         cout << "4. Visit the Shop" << endl;
-        cout << "10. Choose another Class (Only for Testing)" << endl;
+        //cout << "10. Choose another Class (Only for Testing)" << endl;
         cin >> input;
         system("cls");
 
@@ -58,13 +57,13 @@ int main(){
                 while (true) {
                     bool runAway = player.attackMonster(*monster);
                     if (runAway) {
-                        player.initializeResourcePoints();
+                        player.initializePlayer();
                         break;
                     }
                     if (monster->isDead()) {
                         player.victory(*monster);
                         player.levelUp();
-                        player.initializeResourcePoints();
+                        player.initializePlayer();
                         break;
                     }
                     monster->attackPlayer(player);
@@ -86,6 +85,7 @@ int main(){
             break;
         case 2://rest
             player.rest();
+            game.deductMoves(1);
             break;
         case 3://stats
             player.getStats();

@@ -165,11 +165,11 @@ Monster* Game::randomizeMonster() {
 		cout << "Roll: " << encounterRoll << endl;
 	}
 
-	if (encounterRoll <= 20) { // no encounter
+	if (encounterRoll <= 20 && getRemainingMoves() != 49) { // no encounter
 		cout << "Nothing to fight, you have moved 1 space for free!" << endl << endl;
 		return 0; 
 	}
-	else if (encounterRoll >= 21 && encounterRoll <= 40) { //goblin
+	else if ((encounterRoll >= 21 && encounterRoll <= 40) || getRemainingMoves() == 49) { //goblin
 		//mods
 		hpMod = 10 * (level - 1);//every level is 10 more health
 		expMod = 50 * (level - 1);//every level is 50 more exp
@@ -241,8 +241,8 @@ void Game::intro() {
 	cout << "How to Play!" << endl;
 	cout << "1: Pick a Class:" << endl;
 	cout << "\t- Rogue" << endl;
-	cout << "\t- Mage (WIP)" << endl;
-	cout << "\t- Warrior (WIP)" << endl;
+	cout << "\t- Mage" << endl;
+	cout << "\t- Warrior" << endl;
 
 	cout << "2: Move around the map:" << endl;
 	cout << "\t- Dangerous monsters await you the farther you move" << endl;
